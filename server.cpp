@@ -89,12 +89,24 @@ int main(int argc, char* argv[]) {
                 quit = true;
             }
         }
+        const Uint8 *state = SDL_GetKeyboardState(NULL);
+        if (state[SDL_SCANCODE_UP]) {
+            stick_rect.y = (stick_rect.y - 10) % 500;
+        }
+        if (state[SDL_SCANCODE_DOWN]) {
+            stick_rect.y = (stick_rect.y + 10) % 500;
+        }
+        if (state[SDL_SCANCODE_LEFT]) {
+            stick_rect.x = (stick_rect.x - 10) % 700;
+        }
+        if (state[SDL_SCANCODE_RIGHT]) {
+            stick_rect.x = (stick_rect.x + 10) % 700;
+        }
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, nullptr, &rect);
         SDL_RenderCopy(renderer, texture_stick, &stick_state[stick_state_index], &stick_rect);
 
         SDL_RenderPresent(renderer);
-        stick_rect.x = (stick_rect.x + 5) % 700;
         stick_state_index = (stick_state_index + 1) % 4;
         SDL_Delay(80);
     }
